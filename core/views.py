@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Producto
-from .forms import ContactoForm, ProductoForm, CustomUserCreationForm
+from .models import Producto, Categoria
+from .forms import ContactoForm, ProductoForm, CustomUserCreationForm, CategoriaForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import Http404
@@ -117,3 +117,82 @@ def registro(request):
         data["form"] = formulario
 
     return render (request, 'registration/registro.html', data )
+
+
+
+
+
+
+
+#/////////////////////////////// crud Categoria
+
+
+
+
+
+
+@permission_required('core.add_categoria')
+def agregar_categoria (request):
+
+    data = {
+        'form' : CategoriaForm()
+    }
+
+    if request.method == 'POST' :
+        formulario = CategoriaForm(data=request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            #data["mensaje"] = "Guardado correctamente"
+            messages.success(request, "Categoria agregada")
+            return redirect(to="listar_categoria")
+        else:
+            data["form"] = formulario
+
+    return render(request, 'core/categorias/agregar-cat.html', data)
+
+@permission_required('core.view_categoria')
+def listar_productos(request):
+    categorias = Categoria.objects.all()
+    page = request.GET.get('page,', 1)
+
+    try:
+        paginator = Paginator(categorias, 20)
+        categorias = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'entity' : categorias,  # Se llamó entity en vez de productos, porque en paginator.html esta definido como entity.
+        'paginator' : paginator
+    }    
+
+    return render(request, 'core/categoria/listar-cat.html', data)
+
+@permission_required('core.change_categoria')
+def modificar_categoria(request, id):
+
+    categoria = get_object_or_404(Producto, id=id)
+
+    data = {
+        'form' : CategoriaForm(instance=categoria)
+    }
+
+    if request.method == 'POST' :
+        formulario = ProductoForm(data=request.POST, instance=categoria, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Modificado Correctamente")
+            data["mensaje"] = "Modificado correctamente"
+            return redirect(to="listar_categoria")
+        else:
+            data["form"] = formulario    
+
+    return render(request, 'core/categoria/modificar-cat.html', data)
+
+@permission_required('core.delete_categoria')
+def eliminar_categoria(request, id):
+
+    categoria = get_object_or_404(Categoria, id=id)
+    categoria.delete()
+    messages.success(request, "Eliminado Correctamente")
+    return redirect(to="listar_categoria")

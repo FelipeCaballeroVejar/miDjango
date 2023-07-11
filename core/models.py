@@ -35,3 +35,13 @@ class Contacto(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+
+
+class Categoria(models.Model):
+    nombreCategoria = models.CharField(primary_key=True, max_length=20)
+    descripcion= models.TextField(null=True)
+    imagen = models.ImageField(upload_to="categorias", null=True)
+
+    def _str_(self):
+        return str(self.nombreCategoria)
