@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'core',
     'django.contrib.humanize',
     "crispy_forms",
-    "crispy_bootstrap5",
+    # "crispy_bootstrap5",
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+# # CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+# # CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,9 +88,24 @@ WSGI_APPLICATION = 'miDjango.wsgi.application'
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
        'ENGINE': 'django.db.backends.sqlite3',
       'NAME': BASE_DIR / 'db.sqlite3',
+    }, 
+=======
+#       'ENGINE': 'django.db.backends.sqlite3',
+#       'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '127.0.0.1:1521/xe',
+        'USER': 'examenET',
+        'PASSWORD': '123456',
+        'TEST': {
+            'USER': 'default_test',
+            'TBLSPACE': 'default_test_tbls',
+            'TBLSPACE_TMP': 'default_test_tbls_tmp',
+        },
     },
+>>>>>>> Gonzalo
 }
 
 
