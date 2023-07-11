@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+{% endblock %}
+
+{% block contenido %}
+
+<h2>Galería de nuestra carniceria</h2>
+<br><br>
+<div class="galeria">
+     <a data-fancybox="gallery" href="{% static 'core/img/tienda/tienda01.jpg' %}"><img src="{% static 'core/img/tienda/tienda1.jpg' %}"></a>
+     <a data-fancybox="gallery" href="{% static 'core/img/tienda/tienda02.jpeg' %}"><img src="{% static 'core/img/tienda/tienda2.jpe' %}g"></a>
+     <a data-fancybox="gallery" href="{% static 'core/img/tienda/tienda03.jpg' %}"><img src="{% static 'core/img/tienda/tienda3.jpg' %}"></a>
+     <a data-fancybox="gallery" href="{% static 'core/img/tienda/tienda04.jpg' %}"><img src="{% static 'core/img/tienda/tienda4.jpg' %}"></a>
+     <a data-fancybox="gallery" href="{% static 'core/img/tienda/tienda05.jpg' %}"><img src="{% static 'core/img/tienda/tienda5.jpg' %}"></a>     
+</div>
+
+{% endblock %}

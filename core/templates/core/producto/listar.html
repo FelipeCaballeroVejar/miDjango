@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+{% block js %}
+
+<script>
+    function eliminarProducto(id) {
+        Swal.fire({
+            "title" : "¿Estas seguro?",
+            "text" : "Esta accion no se puede deshacer",
+            "icon" : "question",
+            "showCancelButton" : true,
+            "cancelButtonText": "No, Cancelar",
+            "confirmButtonText": "Si, Eliminar",
+            "reverseButtons" : true,
+            "confirmButtonColor" : "#dc3545"
+        })
+        .then(function(result){
+            if (result.isConfirmed) {
+                window.location.href = "/eliminar-producto/"+id+"/"
+            }
+        })
+    }
+</script>
+
+{% endblock %}
+
+
+{% block contenido %}
+{% load humanize %}
+<br>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h2> Listado de Productos</h2>
+        <table class="table table-striped table-hover table-responsive-sm">
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Marca</th>
+                <th>Congelado</th>
+                <th>Opciones</th>
+            </tr>
+
+            {% for p in entity %} 
+            <!-- Se llamó entity en vez de productos, porque en paginator.html esta definido como entity.-->
+            <tr>
+                <td>{{ p.nombre | title }}</td>
+                <td>${{ p.precio | intcomma }}</td>
+                <td>{{ p.marca | title }}</td>
+                <td>
+                    {% if p.congelado %}
+                    Si
+                    {% else %}
+                    No
+                    {% endif %}
+                </td>
+                <td>
+                    {% if perms.core.change_producto %}
+                    <a href="{% url 'modificar_producto' p.id %}" class="btn btn-info btn-sm">Modificar</a>
+                    {% endif %}
+                    <!--<a href="{% url 'eliminar_producto' p.id %}" class="btn btn-danger btn-sm">Eliminar</a> -->
+                    {% if perms.core.delete_producto %} 
+                    <a href="#" onclick="eliminarProducto({{ p.id }})"  class="btn btn-danger btn-sm">Eliminar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div>
+            {% include 'core/paginator.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
